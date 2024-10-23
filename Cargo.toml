@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 field = { git = "https://github.com/0-Kirby-0/Field" }
+rayon = "1.10.0"

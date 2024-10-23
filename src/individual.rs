@@ -1,5 +1,5 @@
 use crate::colors::Hsl;
-#[derive(Default)]
+#[derive(Default, Clone, Copy)]
 pub struct Individual {
     stats: Hsl,
     score: u8,
@@ -7,14 +7,27 @@ pub struct Individual {
 
 impl Individual {
     pub fn new(hue: u8, saturation: u8, lightness: u8) -> Self {
-        Individual {
+        Self {
             stats: Hsl::new(hue, saturation, lightness),
             score: u8::default(),
         }
     }
 
-    fn compare(&self, other: &Self) -> u8 {
+    pub fn bout(&mut self, antagonist: &Individual) {
         todo!()
+    }
+
+    pub fn bout_series<'a, I>(&self, antagonists: I) -> Self
+    where
+        I: Iterator<Item = &'a Individual>,
+    {
+        let mut out = *self;
+
+        antagonists.for_each(|antagonist| {
+            out.bout(antagonist);
+        });
+
+        out
     }
 }
 
