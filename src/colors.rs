@@ -1,7 +1,5 @@
 #![allow(dead_code)]
 
-use std::u8;
-
 #[derive(Clone, Copy, Default)]
 pub struct Hsl {
     pub hue: u8,
