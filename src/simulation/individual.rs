@@ -1,7 +1,7 @@
 use crate::colors::Hsl;
 
-use super::state::Parameters;
-#[derive(Default, Clone, Copy)]
+use super::parameters::Parameters;
+#[derive(Clone, Copy)]
 pub struct Individual {
     stats: Hsl,
     score: u8,
@@ -9,7 +9,7 @@ pub struct Individual {
 
 impl Individual {
     pub fn new(hue: u8, saturation: u8, lightness: u8) -> Self {
-        Self {
+        Individual {
             stats: Hsl::new(hue, saturation, lightness),
             score: u8::default(),
         }
@@ -30,6 +30,19 @@ impl Individual {
         });
 
         out
+    }
+}
+
+impl Default for Individual {
+    fn default() -> Self {
+        Individual {
+            stats: Hsl {
+                hue: rand::random::<u8>(),
+                saturation: u8::MAX,
+                lightness: u8::MAX / 2,
+            },
+            score: u8::MIN,
+        }
     }
 }
 

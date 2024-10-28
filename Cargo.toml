@@ -8,4 +8,7 @@ edition = "2021"
 [dependencies]
 eframe = "0.29.1"
 field = { git = "https://github.com/0-Kirby-0/Field" }
+rand = "0.8.5"
 rayon = "1.10.0"
+strum = "0.26.3"
+strum_macros = "0.26.4"

@@ -1,6 +1,8 @@
 mod individual;
+mod parameters;
 mod state;
-use state::{Parameters, State};
+use parameters::Parameters;
+use state::State;
 struct Simulation<'a> {
     steps: Vec<State<'a>>,
     parameters: Parameters,
