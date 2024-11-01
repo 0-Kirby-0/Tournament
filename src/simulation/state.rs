@@ -1,4 +1,5 @@
 use super::parameters::{ParameterKind, Parameters};
+use crate::colors::Rgb;
 use field::{
     helpers::{Coordinate, Offset},
     Field,
@@ -6,7 +7,7 @@ use field::{
 use rayon::iter::*;
 
 #[derive(Clone)]
-pub(super) struct State<'a> {
+pub struct State<'a> {
     field: field::Field<super::individual::Individual>,
     parameters: &'a Parameters,
 }
@@ -20,6 +21,12 @@ impl<'a> State<'a> {
             ),
             parameters,
         }
+    }
+
+    pub fn as_byte_stream(&'a self) -> impl Iterator<Item = u8> + use<'a> {
+        self.field.value_iterator().flat_map(|individual| {
+            std::convert::Into::<Rgb>::into(individual.get_stats()).to_bytes()
+        })
     }
 }
 

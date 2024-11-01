@@ -1,21 +1,23 @@
 mod individual;
 mod parameters;
 mod state;
-use parameters::Parameters;
-use state::State;
-struct Simulation<'a> {
-    steps: Vec<State<'a>>,
-    parameters: Parameters,
+
+#[ouroboros::self_referencing]
+pub struct Simulation {
+    parameters: parameters::Parameters,
+
+    #[borrows(parameters)]
+    #[not_covariant]
+    steps: Vec<state::State<'this>>,
 }
 
-impl<'a> Simulation<'a> {
-    pub fn new() -> Self {
-        Simulation {
-            steps: vec![],
-            parameters: Parameters::default(),
-        }
+impl Simulation {
+    pub fn new_pub() -> Self {
+        Self::new(parameters::Parameters::default(), |params| {
+            vec![state::State::new(params)]
+        })
     }
-    pub fn populate_first(&'a mut self) {
-        self.steps.push(State::new(&self.parameters));
+    pub fn current(&self) -> &state::State {
+        self.with_steps(|vec| vec.last().unwrap())
     }
 }

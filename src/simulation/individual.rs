@@ -31,6 +31,9 @@ impl Individual {
 
         out
     }
+    pub fn get_stats(&self) -> Hsl {
+        self.stats
+    }
 }
 
 impl Default for Individual {

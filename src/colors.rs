@@ -28,24 +28,6 @@ impl Hsl {
             lightness: percent_to_byte(lightness),
         }
     }
-    fn distance(&self, other: &Self) -> u32 {
-        let mut total_distance = 0;
-
-        total_distance += std::cmp::min(
-            self.hue.wrapping_sub(other.hue),
-            other.hue.wrapping_sub(self.hue),
-        ) as u32;
-
-        if (self.lightness <= u8::MIN + 1) | (self.lightness >= u8::MAX - 1) {
-            //pointless, because lightness is so low, we're expecting precision drops
-        } else {
-            total_distance += self.saturation.abs_diff(self.saturation) as u32
-        }
-
-        total_distance += self.lightness.abs_diff(other.lightness) as u32;
-
-        total_distance
-    }
 }
 
 impl std::fmt::Display for Hsl {
@@ -71,7 +53,7 @@ impl std::fmt::Debug for Hsl {
 }
 
 #[derive(Clone, Copy, Default)]
-struct Rgb {
+pub struct Rgb {
     red: u8,
     green: u8,
     blue: u8,
@@ -79,6 +61,9 @@ struct Rgb {
 impl Rgb {
     fn new(red: u8, green: u8, blue: u8) -> Self {
         Rgb { red, green, blue }
+    }
+    pub fn to_bytes(self) -> [u8; 3] {
+        [self.red, self.green, self.blue]
     }
 
     fn normalised(&self) -> (f64, f64, f64) {
